@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Lanpuda.ERP.ProductionManagement.Reports.MpsBoardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.ProductionManagement.Reports" 
+             xmlns:widget="clr-namespace:Lanpuda.Client.Widget;assembly=Lanpuda.Client.Widget" 
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:MpsBoardViewModel}"
+             d:DesignHeight="900" d:DesignWidth="1600">
+    <Grid Background="{StaticResource AntDesign.PrimaryBackgroundColorBrush}">
+        <DockPanel>
+            <widget:PageHeaderSimple DockPanel.Dock="Top" Title="{Binding Name}"/>
+            <Border Style="{StaticResource BorderRegion}" DockPanel.Dock="Top" Height="60">
+                <StackPanel>
+                    <hc:DatePicker Width="150"></hc:DatePicker>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource BorderRegion}" DockPanel.Dock="Right" Width="400">
+                <StackPanel>
+                    <hc:Card BorderThickness="0" Effect="{StaticResource EffectShadow2}" Margin="8" Header="整体完成情况" Footer="{Binding Footer}">
+                        <hc:Card.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" 
+                                           ToolTip="zheshisadadad"
+                                           Text="{Binding}" Margin="10"/>
+                            </DataTemplate>
+                        </hc:Card.HeaderTemplate>
+                        <Border CornerRadius="4,4,0,0" Style="{StaticResource BorderClip}" Height="250">
+                           
+                        </Border>
+                        <hc:Card.FooterTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="10">
+                                    <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{StaticResource TextBlockLargeBold}" Text="{Binding DataContext.Header,RelativeSource={RelativeSource AncestorType=hc:Card}}" HorizontalAlignment="Left"/>
+                                    <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" Style="{StaticResource TextBlockDefault}" Text="{Binding}" Margin="0,6,0,0" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </hc:Card.FooterTemplate>
+                    </hc:Card>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource BorderRegion}" Margin="5">
+                <Border Height="70"  Style="{StaticResource BorderTipPrimary}" >
+                    <StackPanel Orientation="Horizontal"  >
+                        <Label BorderThickness="0" Background="Transparent">
+                            <Label.Content>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="计划编号:"></TextBlock>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </StackPanel>
+                            </Label.Content>
+                        </Label>
+
+                        <Label BorderThickness="0"  Background="Transparent">
+                            <Label.Content>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="计划类型:"></TextBlock>
+                                    <TextBlock Text="内部订单"></TextBlock>
+                                </StackPanel>
+                            </Label.Content>
+                        </Label>
+
+                        <Label BorderThickness="0" Background="Transparent">
+                            <Label.Content>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="产品名称:"></TextBlock>
+                                    <TextBlock Text="N3245"></TextBlock>
+                                </StackPanel>
+                            </Label.Content>
+                        </Label>
+
+                        <Label BorderThickness="0"  Background="Transparent">
+                            <Label.Content>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="计划数量:"></TextBlock>
+                                    <TextBlock Text="100"></TextBlock>
+                                </StackPanel>
+                            </Label.Content>
+                        </Label>
+
+                        <Label BorderThickness="0"  Background="Transparent">
+                            <Label.Content>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="完成数量:"></TextBlock>
+                                    <TextBlock Text="10"></TextBlock>
+                                </StackPanel>
+                            </Label.Content>
+                        </Label>
+                        <ProgressBar Value="20" Margin="0,0,0,10" Width="150" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Border>
+
+           
+        </DockPanel>
+    </Grid>
+</UserControl>

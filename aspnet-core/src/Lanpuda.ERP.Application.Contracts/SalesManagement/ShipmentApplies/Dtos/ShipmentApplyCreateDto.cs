@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace Lanpuda.ERP.SalesManagement.ShipmentApplies.Dtos;
+
+[Serializable]
+public class ShipmentApplyCreateDto
+{
+    public Guid CustomerId { get; set; }
+
+    /// <summary>
+    /// 收货地址
+    /// </summary>
+    public string Address { get; set; }
+
+    /// <summary>
+    /// 收货人
+    /// </summary>
+    public string Consignee { get; set; }
+
+    /// <summary>
+    /// 收货人电话
+    /// </summary>
+    public string ConsigneeTel { get; set; }
+
+
+    public List<ShipmentApplyDetailCreateDto> Details { get; set; }
+
+    public ShipmentApplyCreateDto()
+    {
+        Details = new List<ShipmentApplyDetailCreateDto>();
+    }
+}

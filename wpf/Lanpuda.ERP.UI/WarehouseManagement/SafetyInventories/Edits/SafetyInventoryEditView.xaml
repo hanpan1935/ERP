@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="Lanpuda.ERP.WarehouseManagement.SafetyInventories.Edits.SafetyInventoryEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.WarehouseManagement.SafetyInventories.Edits" xmlns:hc="https://handyorg.github.io/handycontrol" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+        <dxmvvm:CurrentWindowService />
+        <dxmvvm:WindowService AllowSetWindowOwner="True" WindowStartupLocation="CenterOwner" WindowShowMode="Dialog">
+            <dxmvvm:WindowService.WindowStyle>
+                <Style TargetType="Window">
+                    <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+                    <Setter Property="SizeToContent" Value="Manual"></Setter>
+                    <Setter Property="ShowInTaskbar" Value="False"></Setter>
+                </Style>
+            </dxmvvm:WindowService.WindowStyle>
+        </dxmvvm:WindowService>
+    </dxmvvm:Interaction.Behaviors>
+    <DockPanel>
+        <Border DockPanel.Dock="Bottom" Style="{ StaticResource BorderRegion}" Margin="0" Height="60">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding CloseCommand}"  Content="关闭" Style="{StaticResource ButtonDefault}" Margin="10,0"></Button>
+                <Button Command="{Binding SaveAsyncCommand}"  Content="保存" Style="{StaticResource ButtonPrimary}" Margin="10,0"></Button>
+            </StackPanel>
+        </Border>
+        <Border Style="{StaticResource BorderRegion}">
+            <StackPanel>
+                <hc:Row Margin="0,20,0,0">
+                    <hc:Col Span="24">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="80"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <hc:TextBox hc:TitleElement.Title="产品名称" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="True"
+                                        IsEnabled="False" IsReadOnly="True"
+                                        Text="{Binding Model.ProductName ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        >
+                            </hc:TextBox>
+                            <Button Command="{Binding ShowSelectProdctWindowCommand}" Grid.Column="1" Content="选择产品"></Button>
+                        </Grid>
+                    </hc:Col>
+                </hc:Row>
+                <hc:Row Margin="0,20,0,0">
+                    <hc:Col Span="24">
+                        <hc:TextBox hc:TitleElement.Title="产品编码" hc:TitleElement.TitlePlacement="Left" 
+                                    IsEnabled="False" IsReadOnly="True"
+                                    Text="{Binding Model.ProductNumber ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                    >
+                        </hc:TextBox>
+                    </hc:Col>
+                </hc:Row>
+                <hc:Row Margin="0,20,0,0">
+                    <hc:Col Span="24">
+                        <hc:TextBox hc:TitleElement.Title="产品规格" hc:TitleElement.TitlePlacement="Left" 
+                                    IsEnabled="False" IsReadOnly="True"
+                                    Text="{Binding Model.ProductSpec ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                    >
+                        </hc:TextBox>
+                    </hc:Col>
+                </hc:Row>
+                <hc:Row Margin="0,20,0,0">
+                    <hc:Col Span="24">
+                        <hc:TextBox hc:TitleElement.Title="产品单位" hc:TitleElement.TitlePlacement="Left" 
+                                    IsEnabled="False" IsReadOnly="True"
+                                    Text="{Binding Model.ProductUnitName ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                    >
+                        </hc:TextBox>
+                    </hc:Col>
+                </hc:Row>
+                <hc:Row Margin="0,20,0,0">
+                    <hc:Col Span="24">
+                        <hc:TextBox hc:TitleElement.Title="最低库存" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="False"
+                                    Text="{Binding Model.MinQuantity ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                    >
+                        </hc:TextBox>
+                    </hc:Col>
+                </hc:Row>
+                <hc:Row Margin="0,20,0,0">
+                    <hc:Col Span="24">
+                        <hc:TextBox hc:TitleElement.Title="最高库存" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="False"
+                                    Text="{Binding Model.MaxQuantity ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                    >
+                        </hc:TextBox>
+                    </hc:Col>
+                </hc:Row>
+            </StackPanel>
+        </Border>
+        
+    </DockPanel>
+</UserControl>

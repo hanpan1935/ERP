@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="Lanpuda.ERP.Homes.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.Homes" 
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:converters="clr-namespace:Lanpuda.Client.Theme.Converters;assembly=Lanpuda.Client.Theme" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:theme ="clr-namespace:Lanpuda.Client.Theme;assembly=Lanpuda.Client.Theme"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1600">
+    <UserControl.Resources>
+        <converters:DisplayAttributeToStringConverter x:Key="DisplayAttributeToStringConverter"></converters:DisplayAttributeToStringConverter>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter"></converters:BoolToStringConverter>
+    </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <DockPanel Background="{StaticResource AntDesign.PrimaryBackgroundColorBrush}" IsEnabled="{Binding IsLoading,Converter={StaticResource Boolean2BooleanReConverter}}">
+            <Grid Background="White" DockPanel.Dock="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="120"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="首页" Style="{StaticResource TextBlockDefaultThiLight}" HorizontalAlignment="Left" Margin="25,0,0,0"></TextBlock>
+                <Grid Grid.Row="1" Margin="25,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="工作台" Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left" Margin="0,0,0,5" ></TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                            <hc:Gravatar Style="{StaticResource GravatarCircleImg}" Margin="0">
+                                <Image Source="{Binding Avatar}"/>
+                            </hc:Gravatar>
+                            <StackPanel VerticalAlignment="Center" Margin="20,0,0,0" >
+
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Hello}" Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left" Margin="0,0,0,5" >
+                                    </TextBlock>
+
+                                    <TextBlock Style="{StaticResource TextBlockTitle}" HorizontalAlignment="Left"  Margin="10,0,0,5">
+                                        <TextBlock.Text>
+                                         <MultiBinding StringFormat="{}{0}{1}">
+                                                            <Binding Path="Surname" FallbackValue="" />
+                                                            <Binding Path="Name" FallbackValue="" />
+                                                        </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock Text="{Binding WellKnownSaying}" Style="{StaticResource TextBlockDefaultThiLight}" Margin="0,5,0,0" ></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <hc:Card  BorderThickness="0" Effect="{StaticResource EffectShadow2}" Header="生产工单" Margin="5" >
+                <hc:Card.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock HorizontalAlignment="Left" Style="{StaticResource TextBlockSubTitle}" Text="{Binding}" Margin="10"/>
+                            <hc:DatePicker SelectedDate="{Binding DataContext.WorkOrderStartDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                           Grid.Column="1" Width="120" HorizontalAlignment="Right" Margin="10,2"></hc:DatePicker>
+                        </Grid>
+                    </DataTemplate>
+                </hc:Card.HeaderTemplate>
+                <Border CornerRadius="4,4,0,0" Style="{StaticResource BorderClip}" >
+                    <ListBox ItemsSource="{Binding WorkOrderSource}" Margin="10">
+                        <ListBox.Style>
+                            <Style TargetType="ListBox" BasedOn="{StaticResource ListBoxCustom}">
+                                <Setter Property="SelectionMode" Value="Single">
+                                </Setter>
+                            </Style>
+                        </ListBox.Style>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource BorderTipPrimary}"  Margin="5">
+                                    <Grid Height="70">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding ProductName}"></TextBlock>
+                                            <TextBlock Text="{Binding Number}"></TextBlock>
+                                        </StackPanel>
+
+                                        <Grid Grid.Column="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <TextBlock Text="车间" Grid.Row="0" HorizontalAlignment="Left" Style="{StaticResource TextBlockDefaultSecLight}"></TextBlock>
+                                            <TextBlock Text="{Binding WorkshopName}"  Grid.Row="1" HorizontalAlignment="Left" Style="{StaticResource TextBlockDefaultSecLight}"></TextBlock>
+
+                                            <TextBlock Text="开工日期" HorizontalAlignment="Right" Style="{StaticResource TextBlockDefaultSecLight}" Grid.Row="0" Grid.Column="1"></TextBlock>
+                                            <TextBlock Text="{Binding StartDate,StringFormat={}{0: yyyy-MM-dd}}" HorizontalAlignment="Right" Style="{StaticResource TextBlockDefaultSecLight}" Grid.Row="1" Grid.Column="1"></TextBlock>
+
+                                            <ProgressBar Grid.Row="2" Grid.ColumnSpan="2" Value="{Binding WorkOrderStorageQuantity}" Maximum="{Binding Quantity}" Height="10" Margin="0,0,0,10"/>
+                                        </Grid>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </hc:Card>
+        </DockPanel>
+        <hc:LoadingCircle Visibility="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged,Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

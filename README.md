@@ -1,2 +1,5 @@
-# erp
-ERP system for small and medium-sized manufacturing industry
+# ERP
+
+
+## Project Introduction
+An ERP system suitable for small and medium-sized manufacturing industries

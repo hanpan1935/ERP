@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="Lanpuda.ERP.PurchaseManagement.PurchaseOrders.Edits.PurchaseOrderEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.PurchaseManagement.PurchaseOrders.Edits"
+             mc:Ignorable="d" 
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:widget="clr-namespace:Lanpuda.Client.Widget;assembly=Lanpuda.Client.Widget" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             d:DesignHeight="900" d:DesignWidth="1600">
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+        <dxmvvm:WindowService AllowSetWindowOwner="True" WindowStartupLocation="CenterOwner" WindowShowMode="Dialog">
+            <dxmvvm:WindowService.WindowStyle>
+                <Style TargetType="Window">
+                    <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+                    <Setter Property="ShowInTaskbar" Value="False"></Setter>
+                </Style>
+            </dxmvvm:WindowService.WindowStyle>
+        </dxmvvm:WindowService>
+        <dxmvvm:CurrentWindowService />
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <DockPanel Background="{StaticResource AntDesign.PrimaryBackgroundColorBrush}" 
+               IsEnabled="{Binding IsLoading,Converter={StaticResource Boolean2BooleanReConverter}}">
+            <Border DockPanel.Dock="Top" Style="{StaticResource BorderRegion}" Margin="5">
+                <StackPanel>
+                    <hc:Row Margin="0,0,0,0" Gutter="20" Height="60" VerticalAlignment="Top">
+                        <hc:Col Span="4">
+                            <hc:TextBox hc:InfoElement.Title="采购单号" hc:InfoElement.Necessary="False"  IsEnabled="False" IsReadOnly="True"
+                                Text="{Binding Model.Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                hc:TitleElement.TitlePlacement="Left">
+                            </hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <hc:ComboBox ItemsSource="{Binding Model.SupplierSource ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  hc:TitleElement.TitlePlacement="Left"
+                                 DisplayMemberPath="ShortName" SelectedValuePath="Id" IsEditable="True" IsTextSearchEnabled="True" IsTextSearchCaseSensitive="True"
+                                 hc:InfoElement.Title="供应商" hc:InfoElement.Necessary="True" 
+                                 SelectedValue="{Binding Model.SupplierId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:ComboBox>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <hc:DatePicker hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Title="要求交期" hc:InfoElement.Necessary="True" 
+                                   Text="{Binding Model.RequiredDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:DatePicker>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <hc:DatePicker hc:InfoElement.Title="承诺交期" hc:InfoElement.Necessary="False"  
+                                   Text="{Binding Model.PromisedDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                   hc:TitleElement.TitlePlacement="Left">
+                            </hc:DatePicker>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <hc:TextBox hc:InfoElement.Title="收货人" hc:InfoElement.Necessary="False"  
+                                Text="{Binding Model.Contact,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                hc:TitleElement.TitlePlacement="Left">
+                            </hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <hc:TextBox hc:InfoElement.Title="收货人电话" hc:InfoElement.Necessary="False"  
+                                Text="{Binding Model.ContactTel,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                hc:TitleElement.TitlePlacement="Left">
+                            </hc:TextBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,0,0,0" Gutter="20" >
+                        <hc:Col Span="8">
+                            <hc:TextBox hc:InfoElement.Title="送货地址" hc:InfoElement.Necessary="False"  
+                                Text="{Binding Model.ShippingAddress,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                hc:TitleElement.TitlePlacement="Left">
+                            </hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="8">
+                            <hc:TextBox hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Title="备注" hc:InfoElement.Necessary="False" 
+                                    Text="{Binding Model.Remark,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:TextBox>
+                        </hc:Col>
+                    </hc:Row>
+                </StackPanel>
+            </Border>
+            <Border DockPanel.Dock="Bottom" Style="{StaticResource BorderRegion}" Margin="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Command="{Binding CloseCommand}" Content="关闭" 
+                            Style="{StaticResource ButtonDefault}" Margin="10,0"></Button>
+                    <Button Command="{Binding SaveAsyncCommand}" Content="保存" CommandParameter="true" Style="{StaticResource ButtonPrimary}" Margin="10,0"></Button>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource BorderRegion}" Margin="5">
+                <DataGrid Style="{StaticResource AntDesign.DataGrid.Editable}" Margin="0" SelectionMode="Single" RowHeight="70"
+                          SelectedItem="{Binding Model.SelectedRow,Mode=TwoWay}" VerticalScrollBarVisibility="Auto" 
+                          hc:DataGridAttach.ShowRowNumber="True"  HeadersVisibility="All" 
+                          ItemsSource="{Binding Model.Details,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn CanUserSort="False"  Header="承诺交期*" MinWidth="150">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <hc:DatePicker Text="{Binding PromiseDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}">
+                                    </hc:DatePicker>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding ProductName}" Header="产品名称" MinWidth="150"  IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding ProductSpec}" Header="产品规格" MinWidth="150"  IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding ProductUnitName}" Header="产品单位" MinWidth="50"  IsReadOnly="True"/>
+                        <DataGridTemplateColumn CanUserSort="False"  Header="采购数量*" MinWidth="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <hc:TextBox Text="{Binding Quantity,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}">
+                                    </hc:TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserSort="False"  Header="含税单价*" MinWidth="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <hc:TextBox Text="{Binding Price,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}">
+                                    </hc:TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn CanUserSort="False"  Header="税率*" MinWidth="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <hc:TextBox Text="{Binding TaxRate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}">
+                                    </hc:TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding NetPrice}" Header="净价" MinWidth="150"   IsReadOnly="True"/>
+                        <DataGridTextColumn Binding="{Binding TotalPrice}" Header="合计金额"  MinWidth="150"  IsReadOnly="True"/>
+                        <DataGridTemplateColumn CanUserSort="False"  Header="备注" MinWidth="100">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <hc:TextBox Text="{Binding Remark,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                    </hc:TextBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="操作" MinWidth="80" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Command="{Binding DataContext.DeleteSelectedRowCommand,RelativeSource= {RelativeSource AncestorType=UserControl}}" 
+                                                Content="删除" Margin="5" Style="{DynamicResource AntDesign.LinkButtonStyle}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu  StaysOpen="true">
+                            <MenuItem Command="{Binding ShowSelectProductWindowCommand}"  Header="添加" Style="{StaticResource MenuItemBaseStyle}"/>
+                            <MenuItem Command="{Binding DeleteSelectedRowCommand}"  Header="删除" Style="{StaticResource MenuItemBaseStyle}"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+            </Border>
+        </DockPanel>
+        <hc:LoadingCircle Visibility="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged,Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

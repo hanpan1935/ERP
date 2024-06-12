@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="Lanpuda.ERP.SalesManagement.SalesOrders.Profiles.SalesOrderProfileView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.SalesManagement.SalesOrders.Profiles"
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             mc:Ignorable="d" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:widget="clr-namespace:Lanpuda.Client.Widget;assembly=Lanpuda.Client.Widget" 
+             xmlns:converters="clr-namespace:Lanpuda.Client.Theme.Converters;assembly=Lanpuda.Client.Theme"
+             d:DesignHeight="900" d:DesignWidth="1600">
+    <UserControl.Resources>
+        <converters:DisplayAttributeToStringConverter x:Key="DisplayAttributeToStringConverter"></converters:DisplayAttributeToStringConverter>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter"></converters:BoolToStringConverter>
+    </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+        <dxmvvm:CurrentWindowService />
+        <dxmvvm:WindowService AllowSetWindowOwner="True" WindowStartupLocation="CenterOwner" WindowShowMode="Dialog">
+            <dxmvvm:WindowService.WindowStyle>
+                <Style TargetType="Window">
+                    <!--<Setter Property="Height" Value="300" />
+                    <Setter Property="Width" Value="450" />-->
+                    <Setter Property="SizeToContent" Value="Manual"></Setter>
+                    <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+                    <Setter Property="ShowInTaskbar" Value="False"></Setter>
+                </Style>
+            </dxmvvm:WindowService.WindowStyle>
+        </dxmvvm:WindowService>
+    </dxmvvm:Interaction.Behaviors>
+    <DockPanel>
+        <Border Style="{StaticResource BorderRegion}" Margin="5,5,10,5" DockPanel.Dock="Top">
+            <StackPanel>
+                <Grid Margin="0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <!--第0行-->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xe624;" FontSize="24" FontFamily="{StaticResource Iconfont}"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF2D2FC7">
+                        </TextBlock>
+                        <TextBlock FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0">
+                               <Run Text="订单编号:"></Run>
+                               <Run Text="{Binding Model.Number}"></Run>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <!--<Button Content="导出" Style="{StaticResource ButtonPrimary}" ></Button>-->
+                    </StackPanel>
+
+                    <!--第1行-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="0,10">
+                        <TextBlock FontSize="14" Text="客户全称:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding Model.CustomerFullName}" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" Margin="0,10">
+                        <TextBlock FontSize="14" Text="订单类型:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding Model.OrderType,Converter={StaticResource DisplayAttributeToStringConverter}}" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                        </TextBlock>
+                    </StackPanel>
+                    <!--第2行-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Margin="0,10">
+                        <TextBlock FontSize="14" Text="要求交期:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding Model.RequiredDate,StringFormat={}{0:yyyy-MM-dd}}" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" Margin="0,10">
+                        <TextBlock FontSize="14" Text="承诺交期:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding Model.PromisedDate,StringFormat={}{0:yyyy-MM-dd}}" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                        </TextBlock>
+                    </StackPanel>
+
+                    <!--第3行-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" Margin="0,10">
+                        <TextBlock FontSize="14" Text="确认人:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0}{1}">
+                                    <Binding Path="Model.CreatorSurname" FallbackValue="" />
+                                    <Binding Path="Model.CreatorName" FallbackValue="" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" Margin="0,10">
+                        <TextBlock FontSize="14" Text="确认时间:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding Model.ConfirmeTime,StringFormat={}{0:yyyy-MM-dd}}" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                        </TextBlock>
+                    </StackPanel>
+
+
+                    <!--第4行-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" Margin="0,10" Grid.ColumnSpan="2">
+                        <TextBlock FontSize="14" Text="订单说明:" Style="{StaticResource TextBlockDefaultThiLight}">
+                        </TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding Model.Description}" Style="{StaticResource TextBlockDefault}" Margin="10,0">
+                        </TextBlock>
+                    </StackPanel>
+
+                    <Grid Grid.Column="2" Grid.RowSpan="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Text="是否确认" FontSize="14" Foreground="#FFBFBFBF" Margin="0,10" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Model.IsConfirmed,Converter={StaticResource BoolToStringConverter}}" FontSize="18"  Foreground="Black"  Margin="0,10" HorizontalAlignment="Right"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Text="订单状态" FontSize="14" Foreground="#FFBFBFBF" Margin="0,10" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Model.CloseStatus,Converter={StaticResource DisplayAttributeToStringConverter}}" FontSize="18"  Foreground="Black"  Margin="0,10" HorizontalAlignment="Right"></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock Text="订单金额"  FontSize="14" Foreground="#FFBFBFBF" Margin="0,10" HorizontalAlignment="Right"></TextBlock>
+                            <TextBlock Text="{Binding Model.Amount}" FontSize="18"  Foreground="Black"  Margin="0,10" HorizontalAlignment="Right"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <DataGrid Style="{StaticResource AntDesign.DataGridCommon}"
+                  ItemsSource="{Binding Model.Details}" SelectionMode="Single" SelectionUnit="FullRow"
+                  SelectedItem="{Binding SelectedRow,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  Margin="5,5,10,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ProductName}" Header="产品名称"               MinWidth="100"/>
+                <DataGridTemplateColumn Header="执行进度" Width="200">
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource AntDesign.DataGridCellStyle}">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ProgressBar Value="{Binding OutDetailsTotalQuantity,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" 
+                                             Maximum="{Binding Quantity,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Binding="{Binding DeliveryDate,StringFormat={}{0:yyyy-MM-dd}}" Header="要求交期"              MinWidth="100"/>
+                <DataGridTextColumn Binding="{Binding Price}" Header="含税单价"                     MinWidth="100"/>
+                <DataGridTextColumn Binding="{Binding Quantity}" Header="订单数量"                  MinWidth="100"/>
+                <DataGridTextColumn Binding="{Binding InventoryQuantity}" Header="当前库存"         MinWidth="100"/>
+                <DataGridTextColumn Binding="{Binding ShipmentApplyDetailsTotalQuantity}" Header="申请发货数量"  MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding ReturnApplyDetailsTotalQuantity}" Header="申请退货数量"    MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding OutDetailsTotalQuantity}" Header="销售出库数量"            MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding ReturnDetailsTotalQuantity}" Header="退货入库数量"         MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding MpsesTotalQuantity}" Header="生产计划数量"                 MinWidth="120"/>
+                <!--<DataGridTemplateColumn Header="操作" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Button Content="创建生产计划" Command="{Binding DataContext.CreateCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=UserControl}}" Style="{StaticResource AntDesign.LinkButtonStyle}"></Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+            <!--<DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TabControl>
+                        <TabItem Header="销售发货情况">
+                            <Border>
+                                
+                            </Border>
+                        </TabItem>
+                        <TabItem Header="生产完成情况">
+                            <Border>
+
+                            </Border>
+                        </TabItem>
+                    </TabControl>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>-->
+        </DataGrid>
+    </DockPanel>
+
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Lanpuda.ERP</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lanpuda.ERP.Domain\Lanpuda.ERP.Domain.csproj" />
+    <ProjectReference Include="..\Lanpuda.ERP.Application.Contracts\Lanpuda.ERP.Application.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Account.Application" Version="8.0.5" />
+    <PackageReference Include="Volo.Abp.Identity.Application" Version="8.0.5" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application" Version="8.0.5" />
+    <PackageReference Include="Volo.Abp.TenantManagement.Application" Version="8.0.5" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.Application" Version="8.0.5" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ProductionManagement\Mrps\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+{
+  "culture": "en",
+  "texts": {
+    "MyAccount": "My account",
+    "SamplePageMessage": "A sample page for the ERP module",
+    "Permission:ERP": "ERP模块",
+    "Permission:Create": "新建",
+    "Permission:Update": "编辑",
+    "Permission:Delete": "删除",
+    "Permission:BasicSetting": "BasicSetting",
+    "Permission:BusinessProcess": "BusinessProcess",
+    "Permission:Report": "Report",
+    "Permission:BasicData": "BasicData",
+    "Permission:ProductCategory": "ProductCategory",
+    "Permission:ProductUnit": "ProductUnit",
+    "Permission:Product": "Product"
+  }
+}

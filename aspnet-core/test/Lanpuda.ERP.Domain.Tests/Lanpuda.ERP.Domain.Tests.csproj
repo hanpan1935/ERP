@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Lanpuda.ERP</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Lanpuda.ERP.Domain\Lanpuda.ERP.Domain.csproj" />
+    <ProjectReference Include="..\Lanpuda.ERP.TestBase\Lanpuda.ERP.TestBase.csproj" />
+  </ItemGroup>
+
+</Project>

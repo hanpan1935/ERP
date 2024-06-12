@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="Lanpuda.ERP.BasicData.Products.Edits.ProductEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.BasicData.Products.Edits"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900">
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+        <dxmvvm:CurrentWindowService />
+    </dxmvvm:Interaction.Behaviors>
+    <Grid>
+        <DockPanel Background="White" IsEnabled="{Binding IsLoading,Converter={StaticResource Boolean2BooleanReConverter}}">
+            <Border BorderThickness="1,0,1,1"  DockPanel.Dock="Bottom" Height="60" BorderBrush="{StaticResource AntDesign.BorderColorBaseBrush}"  >
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource ButtonDefault}" Command="{Binding DataContext.CloseCommand,RelativeSource= {RelativeSource AncestorType=UserControl}}"  Content="关闭" Margin="10,0" Cursor="Hand"></Button>
+                    <Button Style="{StaticResource ButtonPrimary}" Command="{Binding DataContext.SaveAsyncCommand,RelativeSource= {RelativeSource AncestorType=UserControl}}"  Content="保存" Margin="10,0" Cursor="Hand"></Button>
+                </StackPanel>
+            </Border>
+            <Border BorderThickness="1" BorderBrush="{StaticResource AntDesign.BorderColorBaseBrush}" >
+                <StackPanel Margin="10">
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12">
+                            <hc:TextBox hc:TitleElement.Title="产品编码" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="False"
+                                        Text="{Binding Model.Number ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        ></hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="产品分类" hc:TitleElement.TitlePlacement="Left" 
+                                         ItemsSource="{Binding ProductCategoryList,UpdateSourceTrigger=PropertyChanged}" SelectedValuePath="Id" DisplayMemberPath="Name"
+                                         SelectedValue="{Binding Model.ProductCategoryId ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                         ></hc:ComboBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12" Cursor="">
+                            <hc:ComboBox hc:TitleElement.Title="产品单位" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="True"
+                                         ItemsSource="{Binding ProductUnitList}" SelectedValuePath="Id" DisplayMemberPath="Name"
+                                         SelectedValue="{Binding Model.ProductUnitId ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                         >
+                            </hc:ComboBox>
+                        </hc:Col>
+                        <hc:Col Span="12">
+                            <hc:TextBox hc:TitleElement.Title="产品名称" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="True"
+                                        Text="{Binding Model.Name ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        >
+                            </hc:TextBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12">
+                            <hc:TextBox hc:TitleElement.Title="产品规格" hc:TitleElement.TitlePlacement="Left" hc:InfoElement.Necessary="False"
+                                        Text="{Binding Model.Spec ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        >
+                            </hc:TextBox>
+                        </hc:Col>
+
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="产品来源" hc:TitleElement.TitlePlacement="Left"
+                                         hc:InfoElement.Necessary="True" SelectedValue="{Binding Model.SourceType}"
+                                         SelectedValuePath="Value" DisplayMemberPath="Key"
+                                         ItemsSource="{Binding ProductSourceTypeList,UpdateSourceTrigger=PropertyChanged}">
+                            </hc:ComboBox>
+                        </hc:Col>
+                      
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12">
+                            <hc:TextBox hc:TitleElement.Title="生产批量" hc:TitleElement.TitlePlacement="Left"  Name="textBox"
+                                        Text="{Binding Model.ProductionBatch ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        >
+                            </hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="12">
+                            <hc:TextBox hc:TitleElement.Title="提前期（天）" hc:TitleElement.TitlePlacement="Left" 
+                                        Text="{Binding Model.LeadTime ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        >
+                            </hc:TextBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="默认仓库" hc:TitleElement.TitlePlacement="Left" 
+                                         hc:InfoElement.Necessary="False" 
+                                         ItemsSource="{Binding Model.WarehouseSource}"
+                                         DisplayMemberPath="Name" 
+                                         SelectedValue="{Binding Model.SelectedWarehouse,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:ComboBox>
+                        </hc:Col>
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="默认库位" hc:TitleElement.TitlePlacement="Left" 
+                                         ItemsSource="{Binding Model.SelectedWarehouse.Locations}"
+                                         DisplayMemberPath="Name" SelectedValuePath="Id" SelectedValue="{Binding Model.DefaultLocationId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                                         >
+                            </hc:ComboBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="是否来料检验" hc:TitleElement.TitlePlacement="Left" 
+                                         hc:InfoElement.Necessary="True" 
+                                         ItemsSource="{Binding IsArrivalInspectionSource}"
+                                         DisplayMemberPath="Key"  SelectedValuePath="Value"
+                                         SelectedValue="{Binding Model.IsArrivalInspection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:ComboBox>
+                        </hc:Col>
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="是否过程检验" hc:TitleElement.TitlePlacement="Left" 
+                                         ItemsSource="{Binding IsProcessInspectionSource}"
+                                         DisplayMemberPath="Key"  SelectedValuePath="Value" hc:InfoElement.Necessary="True" 
+                                         SelectedValue="{Binding Model.IsProcessInspection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                                         >
+                            </hc:ComboBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="是否产品终检" hc:TitleElement.TitlePlacement="Left" 
+                                         hc:InfoElement.Necessary="True" 
+                                         ItemsSource="{Binding IsFinalInspectionSource}"
+                                         DisplayMemberPath="Key"  SelectedValuePath="Value" 
+                                         SelectedValue="{Binding Model.IsFinalInspection,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:ComboBox>
+                        </hc:Col>
+                        <hc:Col Span="12">
+                            <hc:ComboBox hc:TitleElement.Title="默认生产车间" hc:TitleElement.TitlePlacement="Left" 
+                                         hc:InfoElement.Necessary="False" 
+                                         ItemsSource="{Binding WorkshopSource}"
+                                         DisplayMemberPath="Name"  SelectedValuePath="Id" 
+                                         SelectedValue="{Binding Model.DefaultWorkshopId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                            </hc:ComboBox>
+                        </hc:Col>
+                    </hc:Row>
+                    <hc:Row Margin="0,30,0,0" Gutter="20">
+                        <hc:Col Span="24">
+                            <hc:TextBox hc:TitleElement.Title="备注" hc:TitleElement.TitlePlacement="Left" 
+                                        Text="{Binding Model.Remark ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}"
+                                        >
+                            </hc:TextBox>
+                        </hc:Col>
+                    </hc:Row>
+                </StackPanel>
+            </Border>
+        </DockPanel>
+        <hc:LoadingCircle Visibility="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged,Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

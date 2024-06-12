@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="Lanpuda.ERP.SalesManagement.SalesReturnApplies.Edits.SalesReturnApplyEditView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.SalesManagement.SalesReturnApplies.Edits"
+             mc:Ignorable="d" 
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:widget="clr-namespace:Lanpuda.Client.Widget;assembly=Lanpuda.Client.Widget" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             d:DesignHeight="800" d:DesignWidth="1400">
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+        <dxmvvm:KeyToCommand KeyGesture="Enter" Command="{Binding SaveAsyncCommand}"/>
+        <dxmvvm:WindowService AllowSetWindowOwner="True" WindowStartupLocation="CenterOwner" WindowShowMode="Dialog">
+            <dxmvvm:WindowService.WindowStyle>
+                <Style TargetType="Window">
+                    <Setter Property="WindowStyle" Value="SingleBorderWindow" />
+                    <Setter Property="SizeToContent" Value="Manual" />
+                    <Setter Property="ShowInTaskbar" Value="False"></Setter>
+                </Style>
+            </dxmvvm:WindowService.WindowStyle>
+        </dxmvvm:WindowService>
+        <dxmvvm:CurrentWindowService />
+    </dxmvvm:Interaction.Behaviors>
+    <DockPanel Background="{StaticResource AntDesign.PrimaryBackgroundColorBrush}" IsEnabled="{Binding IsLoading,Converter={StaticResource Boolean2BooleanReConverter}}">
+        <Border DockPanel.Dock="Top" Style="{StaticResource BorderRegion}" Margin="5">
+            <StackPanel>
+                <hc:Row Margin="0,10,0,0" Gutter="20" >
+                    <hc:Col Span="4">
+                        <hc:TextBox hc:InfoElement.Title="申请单号" hc:InfoElement.Necessary="False"  IsEnabled="False" IsReadOnly="True"
+                                Text="{Binding Model.Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                hc:TitleElement.TitlePlacement="Left" >
+                        </hc:TextBox>
+                    </hc:Col>
+                    <hc:Col Span="4">
+                        <hc:ComboBox ItemsSource="{Binding Model.CustomerSource ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  hc:TitleElement.TitlePlacement="Left"
+                                 DisplayMemberPath="ShortName" SelectedValuePath="Id"
+                                 hc:InfoElement.Title="客户" hc:InfoElement.Necessary="True"  IsEditable="True"
+                                 SelectedValue="{Binding Model.CustomerId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}" 
+                                 >
+                        </hc:ComboBox>
+                    </hc:Col>
+                    <hc:Col Span="4">
+                        <hc:ComboBox ItemsSource="{Binding Model.ReturnReasonSource ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  hc:TitleElement.TitlePlacement="Left"
+                                 DisplayMemberPath="Key" SelectedValuePath="Value" 
+                                 hc:InfoElement.Title="退货原因"  hc:InfoElement.Necessary="True"
+                                 SelectedValue="{Binding Model.Reason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                        </hc:ComboBox>
+                    </hc:Col>
+                    <hc:Col Span="4">
+                        <hc:ComboBox ItemsSource="{Binding  Model.IsProductReturnSource ,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  hc:TitleElement.TitlePlacement="Left"
+                                 DisplayMemberPath="Key" SelectedValuePath="Value"
+                                 hc:InfoElement.Title="商品需要退回" hc:InfoElement.Necessary="True"
+                                 SelectedValue="{Binding Model.IsProductReturn,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True ,ValidatesOnExceptions=True,NotifyOnValidationError=True}">
+                        </hc:ComboBox>
+                    </hc:Col>
+                    <hc:Col Span="8">
+                        <hc:TextBox hc:InfoElement.Title="具体描述"
+                                Text="{Binding Model.Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged ,ValidatesOnDataErrors=True}"
+                                hc:TitleElement.TitlePlacement="Left" >
+                        </hc:TextBox>
+                    </hc:Col>
+                </hc:Row>
+              
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Style="{ StaticResource BorderRegion}" Margin="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Command="{Binding CloseCommand}"  Content="关闭" Style="{StaticResource ButtonDefault}" Margin="10,0"></Button>
+                <Button Command="{Binding SaveAsyncCommand}"  Content="保存" Style="{StaticResource ButtonPrimary}" Margin="10,0"></Button>
+            </StackPanel>
+        </Border>
+
+        <Border Style="{StaticResource BorderRegion}" Margin="5">
+            <DataGrid Style="{StaticResource AntDesign.DataGrid.Editable}" Margin="0" SelectionMode="Single" RowHeight="70"
+                          SelectedItem="{Binding SelectedDetailEntity,Mode=TwoWay}" VerticalScrollBarVisibility="Auto" 
+                          hc:DataGridAttach.ShowRowNumber="True"  HeadersVisibility="All" 
+                          ItemsSource="{Binding Model.Details,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn CanUserSort="False"  Header="退货数量" MinWidth="150" Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <hc:TextBox Text="{Binding Quantity,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True }">
+                                </hc:TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding ProductName}"    Header="产品名称"   MinWidth="150"  Width="1*" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding OutQuantity}"  Header="出库数量"   MinWidth="150"  Width="1*"  IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding Batch}"  Header="出库批次"   MinWidth="150"  Width="1*" IsReadOnly="True"/>
+                    <DataGridTemplateColumn CanUserSort="False"  Header="退货说明" MinWidth="150"  Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <hc:TextBox Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged , ValidatesOnDataErrors=True }">
+                                </hc:TextBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="操作" Width="150" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" >
+                                    <Button Command="{Binding DataContext.DeleteSelectedRowCommand,RelativeSource= {RelativeSource AncestorType=UserControl}}" 
+                                            Content="删除" Margin="5"
+                                            Style="{DynamicResource AntDesign.LinkButtonStyle}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu  StaysOpen="true">
+                        <MenuItem Command="{Binding ShowSelectOrderWindowCommand}"  Header="添加" Style="{StaticResource MenuItemBaseStyle}"/>
+                        <MenuItem Command="{Binding DeleteSelectedRowCommand}"  Header="删除" Style="{StaticResource MenuItemBaseStyle}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+        </Border>
+    </DockPanel>
+</UserControl>

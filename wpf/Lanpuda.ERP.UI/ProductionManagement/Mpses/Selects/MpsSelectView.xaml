@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="Lanpuda.ERP.ProductionManagement.Mpses.Selects.MpsSelectView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lanpuda.ERP.ProductionManagement.Mpses.Selects"
+             mc:Ignorable="d" 
+             xmlns:hc="https://handyorg.github.io/handycontrol" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+             xmlns:widget="clr-namespace:Lanpuda.Client.Widget;assembly=Lanpuda.Client.Widget" 
+             xmlns:converters="clr-namespace:Lanpuda.Client.Theme.Converters;assembly=Lanpuda.Client.Theme"
+             d:DesignHeight="700" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <converters:DisplayAttributeToStringConverter x:Key="DisplayAttributeToStringConverter"></converters:DisplayAttributeToStringConverter>
+        <converters:BoolToStringConverter x:Key="BoolToStringConverter"></converters:BoolToStringConverter>
+    </UserControl.Resources>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding InitializeAsyncCommand}"/>
+        <dxmvvm:KeyToCommand KeyGesture="Enter" Command="{Binding QueryAsyncCommand}"/>
+        <dxmvvm:CurrentWindowService />
+    </dxmvvm:Interaction.Behaviors>
+    <Grid Background="{StaticResource AntDesign.PrimaryBackgroundColorBrush}">
+        <DockPanel Background="Transparent">
+            <DockPanel Background="White" Margin="10" IsEnabled="{Binding IsLoading,Converter={StaticResource Boolean2BooleanReConverter}}">
+                <!--搜索-->
+                <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="5" Background="White">
+                    <hc:Row Margin="5" Gutter="20">
+                        <hc:Col Span="4">
+                            <hc:TextBox Text="{Binding Number,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                    hc:TitleElement.Title="计划编号" hc:TitleElement.TitlePlacement="Left"></hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <hc:TextBox Text="{Binding ProductName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                    hc:TitleElement.Title="产品名称" hc:TitleElement.TitlePlacement="Left"></hc:TextBox>
+                        </hc:Col>
+                        <hc:Col Span="4">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="查询" Command="{Binding QueryAsyncCommand}" Style="{DynamicResource ButtonPrimary}" Margin="0,0,0,0"   Cursor="Hand"></Button>
+                                <Button Content="重置" Command="{Binding ResetAsyncCommand}" Style="{DynamicResource ButtonDefault}" Margin="20,0,0,0"  Cursor="Hand"></Button>
+                            </StackPanel>
+                        </hc:Col>
+                    </hc:Row>
+                </StackPanel>
+                <!--分页-->
+                <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" HorizontalAlignment="Right">
+                    <ComboBox  hc:DropDownElement.ConsistentWidth="False" ItemsSource="{Binding PageSizeList}" 
+                           DisplayMemberPath="Key" SelectedValuePath="Value" 
+                           SelectedValue="{Binding DataCountPerPage}" Margin="10,0" >
+                    </ComboBox>
+                    <hc:Pagination MaxPageCount="{Binding MaxPageCount ,UpdateSourceTrigger=PropertyChanged}"   
+                               DataCountPerPage="{Binding DataCountPerPage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                               PageIndex="{Binding PageIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                               IsJumpEnabled="True" HorizontalAlignment="Right" Margin="0,0,10,0">
+                        <hc:Interaction.Triggers>
+                            <hc:EventTrigger EventName="PageUpdated">
+                                <hc:EventToCommand Command="{Binding PageUpdatedAsyncCommand}" PassEventArgsToCommand="True" />
+                            </hc:EventTrigger>
+                        </hc:Interaction.Triggers>
+                    </hc:Pagination>
+                </StackPanel>
+                <!--数据表格-->
+                <DataGrid hc:DataGridAttach.CanUnselectAllWithBlankArea="False" HeadersVisibility="Column" 
+                          BorderThickness="1" Style="{StaticResource AntDesign.DataGridCommon}"
+                          HorizontalContentAlignment="Center" Margin="10" Name="dataGrid" SelectedItem="{Binding SelectedRow,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                          RowHeaderWidth="60" AutoGenerateColumns="False" ItemsSource="{Binding PagedDatas}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding Number}"        Header="计划单号" Width="1*" MinWidth="150"/>
+                        <DataGridTextColumn Binding="{Binding MpsType,Converter={StaticResource DisplayAttributeToStringConverter}}"       Header="计划类型" Width="1*"/>
+                        <DataGridTextColumn Binding="{Binding StartDate,StringFormat={}{0:yyyy-MM-dd }}"     Header="开工时间"   Width="1*" MinWidth="150"/>
+                        <DataGridTextColumn Binding="{Binding CompleteDate,StringFormat={}{0:yyyy-MM-dd }}"  Header="完成时间" Width="1*" MinWidth="150"/>
+                        <DataGridTextColumn Binding="{Binding ProductNumber}"           Header="产品编码"     Width="1*" MinWidth="150"/>
+                        <DataGridTextColumn Binding="{Binding ProductName}"           Header="产品名称"     Width="1*" MinWidth="150"/>
+                        <DataGridTextColumn Binding="{Binding Quantity}"             Header="计划数量"     Width="1*" MinWidth="150"/>
+                        <DataGridTextColumn Binding="{Binding IsConfirmed,Converter={StaticResource BoolToStringConverter}}"        Header="是否确认"     Width="1*" MinWidth="150"/>
+                        <DataGridTemplateColumn Header="操作" Width="1*" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Command="{Binding DataContext.SelectedCommand,RelativeSource= {RelativeSource AncestorType=UserControl}}" 
+                                            Content="选择"  Margin="5"  Style="{DynamicResource AntDesign.LinkButtonStyle}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand EventName="MouseDoubleClick" Command="{Binding SelectedCommand}"/>
+                    </dxmvvm:Interaction.Behaviors>
+                </DataGrid>
+            </DockPanel>
+        </DockPanel>
+        <hc:LoadingCircle Visibility="{Binding IsLoading, UpdateSourceTrigger=PropertyChanged,Converter={dxmvvm:BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>
